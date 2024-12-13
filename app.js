@@ -36,10 +36,12 @@ document.getElementById('createProductForm').addEventListener('submit', async fu
     });
 
     if (response.ok) {
+      const newProduct = await response.json();
       alert('Product created successfully!');
       this.reset();
+      displayProducts(newProduct.data);
     } else {
-      alert('Failed to create product.');
+      alert("Failed to create product.");
     }
   } catch (error) {
     console.error('Error:', error);
@@ -69,6 +71,18 @@ function displayProducts(products) {
     productsList.appendChild(productItem);
   });
 }
+
+
+function displayNewProduct(product) {
+  const productsList = document.getElementById("productsList");
+  const productItem = document.createElement("li");
+  productItem.classList.add("list-group-item");
+  productItem.innerHTML = `
+      ${product.id} - ${product.name} - ${product.price}€ - ${product.description}
+  `;
+  productsList.prepend(productItem);
+}
+
 
 async function deleteProduct(id) {
   try {
